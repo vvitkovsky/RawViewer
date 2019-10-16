@@ -2,4 +2,14 @@
 # This .gitignore file was automatically created by Microsoft(R) Visual Studio.
 ################################################################################
 
-/bin/Debug
+*.csproj.user
+*.lock
+*.ide
+*.ide-shm
+*.ide-wal
+*.suo
+*.exe
+*.config
+*.pdb
+*.dll
+/obj/Debug
