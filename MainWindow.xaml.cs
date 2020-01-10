@@ -26,12 +26,11 @@ namespace RawViewer
         BitmapSource _original;
         const int _width = 5120;
         const int _height = 5120;
-        const int _bitsPerPixel = 10;
+        int _bitsPerPixel = 10;
 
         public MainWindow()
         {
             InitializeComponent();
-            DrawPicture(Properties.Settings.Default.LastOpenedFilePath);
         }
         private void Button_Click(object sender, RoutedEventArgs e)
         {
@@ -100,6 +99,24 @@ namespace RawViewer
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             Properties.Settings.Default.Save();
+        }
+
+        private void ImageType_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            switch (comboBoxType.SelectedIndex)
+            {
+                case 0:
+                    _bitsPerPixel = 8;
+                    break;
+                case 1:
+                    _bitsPerPixel = 10;
+                    break;
+                case 2:
+                    _bitsPerPixel = 12;
+                    break;
+            }
+
+            DrawPicture(Properties.Settings.Default.LastOpenedFilePath);
         }
     }
 }

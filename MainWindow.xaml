@@ -5,10 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:RawViewer"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800" AllowDrop="True" Drop="ZoomBorder_Drop" Closing="Window_Closing">
+        Title="Raw image viewer" Height="450" Width="800" AllowDrop="True" Drop="ZoomBorder_Drop" Closing="Window_Closing" Icon="Resources\main.png">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="*" />        
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
         <Grid.ColumnDefinitions>
@@ -17,9 +17,8 @@
         </Grid.ColumnDefinitions>
 
         <local:ZoomBorder ClipToBounds="True">
-            <Image Name="_image" />
+            <Image Name="_image" Source="Resources\drag.png"/>
         </local:ZoomBorder>
-
 
         <StackPanel Grid.Column="1" Margin="5">
             <StackPanel Orientation="Horizontal">
@@ -37,8 +36,17 @@
                 <TextBlock Text="{Binding Path=Value, ElementName=_sliderGamma}" Margin="10" />
             </StackPanel>
             <Slider Name="_sliderGamma" Maximum="7.9" Minimum="0.1" TickFrequency="0.05" LargeChange="1.0" Value="1.0" IsSnapToTickEnabled="True" Thumb.DragCompleted="OnSlider_ValueChanged"/>
+            
+            <StackPanel Orientation="Vertical">
+                <Label x:Name="label" Content="Тип изображения"/>
+                <ComboBox x:Name="comboBoxType" SelectedIndex="1" SelectionChanged="ImageType_SelectionChanged">
+                    <ComboBoxItem Content="8bit"/>
+                    <ComboBoxItem Content="10bit"/>
+                    <ComboBoxItem Content="12bit"/>
+                </ComboBox>
+            </StackPanel>
         </StackPanel>
 
-        <Button Grid.Column="1" Content="Open" Click="Button_Click" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="5" Width="80" />
+        <Button Grid.Column="1" Content="Browse Image..." Click="Button_Click" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="5" Width="100" />
     </Grid>
 </Window>

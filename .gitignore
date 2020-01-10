@@ -13,3 +13,5 @@
 *.pdb
 *.dll
 /obj/Debug
+/obj/Release
+/.vs/RawViewer/v16/TestStore/0
