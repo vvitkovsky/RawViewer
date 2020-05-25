@@ -59,21 +59,41 @@ namespace RawViewer
 
                 using (BinaryReader br = new BinaryReader(File.Open(aFilePath, FileMode.Open)))
                 {
-                    int iNumberOfPixels = (int)(br.BaseStream.Length / 2);
-                    ushort[] pix16 = new ushort[iNumberOfPixels];
-
-                    ushort pixShort;
-                    for (var i = 0; i < iNumberOfPixels; ++i)
+                    if (_bitsPerPixel > 16)
                     {
-                        pixShort = (ushort)(br.ReadUInt16() * Math.Pow(2, 16 - _bitsPerPixel));
-                        pix16[i] = pixShort;
+                        int iNumberOfPixels = (int)(br.BaseStream.Length / sizeof(float));
+                        float[] pixels = new float[iNumberOfPixels];
+
+                        for (var i = 0; i < iNumberOfPixels; ++i)
+                        {
+                            pixels[i] = br.ReadSingle();
+                        }
+
+                        int bitsPerPixel = 32;
+                        int bytesPerPixel = (bitsPerPixel + 7) / 8;
+                        int stride = 4 * ((_width * bytesPerPixel + 3) / 4);
+
+                        _original = BitmapSource.Create(_width, _height, 96, 96, PixelFormats.Gray32Float, null, pixels, stride);
+                        _image.Source = _original;
                     }
+                    else
+                    {
+                        int iNumberOfPixels = (int)(br.BaseStream.Length / 2);
+                        ushort[] pix16 = new ushort[iNumberOfPixels];
 
-                    int bitsPerPixel = 16;
-                    int stride = (_width * bitsPerPixel + 7) / 8;
+                        ushort pixShort;
+                        for (var i = 0; i < iNumberOfPixels; ++i)
+                        {
+                            pixShort = (ushort)(br.ReadUInt16() * Math.Pow(2, 16 - _bitsPerPixel));
+                            pix16[i] = pixShort;
+                        }
 
-                    _original = BitmapSource.Create(_width, _height, 96, 96, PixelFormats.Gray16, null, pix16, stride);
-                    _image.Source = _original;
+                        int bitsPerPixel = 16;
+                        int stride = (_width * bitsPerPixel + 7) / 8;
+
+                        _original = BitmapSource.Create(_width, _height, 96, 96, PixelFormats.Gray16, null, pix16, stride);
+                        _image.Source = _original;
+                    }
                 }
 
                 Properties.Settings.Default.LastOpenedFilePath = aFilePath;
@@ -113,6 +133,15 @@ namespace RawViewer
                     break;
                 case 2:
                     _bitsPerPixel = 12;
+                    break;
+                case 3:
+                    _bitsPerPixel = 14;
+                    break;
+                case 4:
+                    _bitsPerPixel = 16;
+                    break;
+                case 5:
+                    _bitsPerPixel = 32;
                     break;
             }
 

@@ -99,13 +99,15 @@ namespace RawViewer
             this.child = element;
             if (child != null)
             {
+                RenderOptions.SetBitmapScalingMode(this, BitmapScalingMode.NearestNeighbor);
+
                 TransformGroup group = new TransformGroup();
-                ScaleTransform st = new ScaleTransform();
+                ScaleTransform st = new ScaleTransform();        
                 group.Children.Add(st);
-                TranslateTransform tt = new TranslateTransform();
+                TranslateTransform tt = new TranslateTransform();                
                 group.Children.Add(tt);
                 child.RenderTransform = group;
-                child.RenderTransformOrigin = new Point(0.0, 0.0);
+                child.RenderTransformOrigin = new Point(0.0, 0.0);                
                 this.MouseWheel += child_MouseWheel;
                 this.MouseLeftButtonDown += child_MouseLeftButtonDown;
                 this.MouseLeftButtonUp += child_MouseLeftButtonUp;

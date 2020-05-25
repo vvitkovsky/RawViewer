@@ -43,6 +43,9 @@
                     <ComboBoxItem Content="8bit"/>
                     <ComboBoxItem Content="10bit"/>
                     <ComboBoxItem Content="12bit"/>
+                    <ComboBoxItem Content="14bit"/>
+                    <ComboBoxItem Content="16bit"/>
+                    <ComboBoxItem Content="32bit"/>
                 </ComboBox>
             </StackPanel>
         </StackPanel>
